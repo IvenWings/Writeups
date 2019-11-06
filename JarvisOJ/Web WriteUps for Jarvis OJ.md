@@ -16,7 +16,7 @@
 curl --local-port 51 http://web.jarvisoj.com:32770
 ```
 
-![1572693656195](/Writeups/JarvisOJ/Web WriteUps for Jarvis OJ.assets/1572693656195.png)
+![1572693656195](./Web WriteUps for Jarvis OJ.assets/1572693656195.png)
 
 ```kotlin
 curl 命令参数使用：
