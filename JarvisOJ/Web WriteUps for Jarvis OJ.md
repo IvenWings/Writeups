@@ -16,7 +16,7 @@
 curl --local-port 51 http://web.jarvisoj.com:32770
 ```
 
-![1572693656195](./Web WriteUps for Jarvis OJ.assets/1572693656195.png)
+![1572693656195](https://github.com/IvenWings/Writeups/blob/master/JarvisOJ/Web%20WriteUps%20for%20Jarvis%20OJ.assets/1572693656195.png)
 
 ```kotlin
 curl 命令参数使用：
@@ -41,7 +41,7 @@ X-Forwarded-For: 127.0.0.1
 >
 > -- WikiPedia
 
-![1572694155706](/root/Writeups/JarvisOJ/Web WriteUps for Jarvis OJ.assets/1572694155706.png)
+![1572694155706](https://github.com/IvenWings/Writeups/blob/master/JarvisOJ/Web%20WriteUps%20for%20Jarvis%20OJ.assets/1572694155706.png)
 
 ### Login
 
@@ -53,11 +53,11 @@ Description：
 
 打开环境，是一个输入框，需要输入密码：
 
-![1572694279334](/root/Writeups/JarvisOJ/Web WriteUps for Jarvis OJ.assets/1572694279334.png)
+![1572694279334](https://github.com/IvenWings/Writeups/blob/master/JarvisOJ/Web%20WriteUps%20for%20Jarvis%20OJ.assets/1572694279334.png)
 
 我们查看一下数据包，f12-network 走起：
 
-![1572694337862](/root/Writeups/JarvisOJ/Web WriteUps for Jarvis OJ.assets/1572694337862.png)
+![1572694337862](https://github.com/IvenWings/Writeups/blob/master/JarvisOJ/Web%20WriteUps%20for%20Jarvis%20OJ.assets/1572694337862.png)
 
 >```php
 >md5(input_string, raw_output) // 计算字符串的 MD5 散列
@@ -81,7 +81,7 @@ md5加密后：276f722736c95d99e921722cf9ed621c
 那么，拼接后的语句为：select * from admin where password=''or'6<乱码>' ，就相当于 select * from admin where password=''or 1 ,实现 sql 注入。
 ```
 
-![1572694786656](/root/Writeups/JarvisOJ/Web WriteUps for Jarvis OJ.assets/1572694786656.png)
+![1572694786656](https://github.com/IvenWings/Writeups/blob/master/JarvisOJ/Web%20WriteUps%20for%20Jarvis%20OJ.assets/1572694786656.png)
 
 ### 神盾局的秘密
 
@@ -165,7 +165,7 @@ Description：
 
 传参，得到 flag
 
-![1572695424641](/root/Writeups/JarvisOJ/Web WriteUps for Jarvis OJ.assets/1572695424641-1572971311776.png)
+![1572695424641](https://github.com/IvenWings/Writeups/blob/master/JarvisOJ/Web%20WriteUps%20for%20Jarvis%20OJ.assets/1572695424641-1572971311776.png)
 
 ### IN A Mess
 
@@ -236,13 +236,13 @@ strlen($b)>5 and eregi("111".substr($b,0,1),"1114") and substr($b,0,1)!=4;
 // b参数的长度要大于5,并且在第二个参数里搜索，"111"加上b的第一个字符（第一个参数），也就是第二个参数包含第一个参数就可以，这里我们用到%00进行截断，因此"111%00"会被解析成"111"，字符串结束，同时第一个字符不能是4,所以我们这里赋值$b=%00111111
 ```
 
-![](/root/Writeups/JarvisOJ/Web WriteUps for Jarvis OJ.assets/sendpix2.jpg)
+![](https://github.com/IvenWings/Writeups/blob/master/JarvisOJ/Web%20WriteUps%20for%20Jarvis%20OJ.assets/sendpix2.jpg)
 
 看起来像一个url，我们访问得到新页面：
 
 
 
-![](/root/Writeups/JarvisOJ/Web WriteUps for Jarvis OJ.assets/sendpix3.jpg)
+![](https://github.com/IvenWings/Writeups/blob/master/JarvisOJ/Web%20WriteUps%20for%20Jarvis%20OJ.assets/sendpix3.jpg)
 
 
 
@@ -301,7 +301,7 @@ Description：
 
 查看源代码无果，分析一下数据包，f12/bp走起，可以注意到：
 
-![](/root/Writeups/JarvisOJ/Web WriteUps for Jarvis OJ.assets/sendpix4.jpg)
+![](https://github.com/IvenWings/Writeups/blob/master/JarvisOJ/Web%20WriteUps%20for%20Jarvis%20OJ.assets/sendpix4.jpg)
 
 `role=s%3A5%3A%22guest%22%3B`
 
@@ -317,7 +317,7 @@ Description：
 
 发现有源码泄漏`index.php~`
 
-![](/root/Writeups/JarvisOJ/Web WriteUps for Jarvis OJ.assets/sendpix5.jpg)
+![](https://github.com/IvenWings/Writeups/blob/master/JarvisOJ/Web%20WriteUps%20for%20Jarvis%20OJ.assets/sendpix5.jpg)
 
 访问`index.php~`把文件下下来，进行代码审计。
 
