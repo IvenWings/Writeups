@@ -445,7 +445,7 @@ Description：
 
 回显：
 
-![](/root/Writeups/JarvisOJ/Web WriteUps for Jarvis OJ.assets/simple_inj.jpg)
+![](https://github.com/IvenWings/Writeups/blob/master/JarvisOJ/Web%20WriteUps%20for%20Jarvis%20OJ.assets/simple_inj.jpg)
 
 接下来读取数据库：
 
